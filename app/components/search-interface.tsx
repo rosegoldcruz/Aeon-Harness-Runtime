@@ -1,0 +1,35 @@
+"use client"
+import { Sidebar } from "./sidebar"
+import { SearchBar } from "./search-bar"
+import { WidgetCards } from "./widget-cards"
+import { useState } from "react"
+
+export function Search() {
+  const [showWidgets, setShowWidgets] = useState(false)
+
+  return (
+    <>
+      <Sidebar />
+
+      {/* Main Content */}
+      <main className="flex flex-1 flex-col bg-background">
+        <div className="flex min-h-screen flex-col items-center justify-center px-4 md:px-6 pt-16 md:pt-0">
+          <div className="w-full max-w-3xl space-y-6 md:space-y-8">
+            <header className="flex items-center justify-center">
+              <div className="flex items-center gap-0">
+                <span className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">Aeon</span>
+                <span className="ml-1 rounded-full bg-teal-600 px-2 md:px-2.5 py-0.5 text-[10px] md:text-xs font-semibold text-white">
+                  pro
+                </span>
+              </div>
+            </header>
+
+            <SearchBar onSearch={() => setShowWidgets(true)} />
+
+            {showWidgets && <WidgetCards />}
+          </div>
+        </div>
+      </main>
+    </>
+  )
+}
