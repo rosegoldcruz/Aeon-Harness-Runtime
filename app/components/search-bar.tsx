@@ -8,7 +8,14 @@ const suggestions = ["test", "test internet speed", "test my speed", "testament"
 
 type Mode = "search" | "deep-research" | "create"
 
-const modeTooltips = {
+const modeTooltips: Record<Mode, {
+  title: string
+  description: string
+  badge?: string
+  proEnabled: boolean
+  proDescription: string
+  footer: string
+}> = {
   search: {
     title: "Search",
     description: "Get fast answers to everyday questions",

@@ -3,6 +3,9 @@ import { Sidebar } from "./sidebar"
 import { SearchBar } from "./search-bar"
 import { WidgetCards } from "./widget-cards"
 import { useState } from "react"
+import dynamic from "next/dynamic"
+
+const FoxCompanion = dynamic(() => import("./fox-companion"), { ssr: false })
 
 export function Search() {
   const [showWidgets, setShowWidgets] = useState(false)
@@ -10,6 +13,7 @@ export function Search() {
   return (
     <>
       <Sidebar />
+      <FoxCompanion />
 
       {/* Main Content */}
       <main className="flex flex-1 flex-col bg-background">

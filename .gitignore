@@ -25,3 +25,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local 3D generation intermediates and signed asset URLs
+/.aeon-assets/
+/assets/fox/*.blend1

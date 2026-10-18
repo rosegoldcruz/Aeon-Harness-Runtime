@@ -1,0 +1,16 @@
+{
+  "name": "Aeon Fox",
+  "source": "User-provided Aeon Fox.png",
+  "generator": "Meshy image-to-3d",
+  "generation_task": "01a15116-f75b-76ff-95e7-431868a0d49b",
+  "rigging_task": "01a15119-26fc-71aa-8a52-44a0440974e8",
+  "full_body": "aeon-fox-full-body.glb",
+  "head": "aeon-fox-head.glb",
+  "body_animation": "Walk",
+  "head_morphs": [
+    "jawOpen",
+    "mouthFunnel",
+    "mouthSmile"
+  ],
+  "processing": "Blender: normalization, head isolation, neck cap, lip seam, mouth interior and facial armature"
+}
