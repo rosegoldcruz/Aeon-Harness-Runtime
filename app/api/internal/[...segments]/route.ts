@@ -8,14 +8,14 @@ const GET_PATH = [
   /^projects$/, /^source-review$/, /^source-review\/[a-z0-9-]{1,64}$/,
   /^source-review\/[a-z0-9-]{1,64}\/(?:objects|sheets|audit)$/,
   /^source-review\/[a-z0-9-]{1,64}\/page\/[1-9][0-9]{0,3}$/,
-  /^catalogs$/, /^catalogs\/(?:hci-shaker|rythern-ddp)$/, /^catalogs\/hci-shaker\/policy$/,
-  /^takeoffs\/[a-z0-9]{12}\/(?:review|history)$/,
+  /^catalogs$/, /^catalogs\/(?:hci-shaker|rythern-ddp|rythern-ddp-greystone|altaeuro-specs)$/, /^catalogs\/hci-shaker\/policy$/,
+  /^takeoffs\/[a-z0-9]{12}\/(?:review|history|validation|schedule|lifecycle)$/,
   /^takeoffs\/[a-z0-9]{12}\/(?:workbooks|calculated)\/[a-f0-9]{64}$/,
   /^takeoff-profiles$/, /^takeoffs$/, /^takeoffs\/[a-z0-9]{12}$/,
   /^takeoffs\/[a-z0-9]{12}\/takeoff\.json$/,
   /^takeoffs\/[a-z0-9]{12}\/artifact$/,
 ]
-const POST_PATH = [/^takeoffs$/, /^takeoffs\/[a-z0-9]{12}\/(?:files|run|resume|review|estimate|workbook|recalculate)$/]
+const POST_PATH = [/^takeoffs$/, /^takeoffs\/[a-z0-9]{12}\/(?:files|run|resume|automated-bid|schedule|review|reconcile-views|estimate|workbook|recalculate)$/]
 const origin = () => {
   const value = process.env.CABINET_API_ORIGIN ?? "http://127.0.0.1:7318"
   return /^http:\/\/(127\.0\.0\.1|localhost):[0-9]{2,5}$/.test(value) ? value : null
@@ -66,14 +66,14 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   const type = request.headers.get("content-type")?.split(";")[0]
   if (type !== (upload ? "application/pdf" : "application/json")) return json({ error: "Invalid content type" }, 415)
   const size = Number(request.headers.get("content-length") ?? "0")
-  if (!Number.isFinite(size) || size > (upload ? 160 * 1024 * 1024 : 262144)) return json({ error: "Request too large" }, 413)
+  if (!Number.isFinite(size) || size > (upload ? 512 * 1024 * 1024 : 262144)) return json({ error: "Request too large" }, 413)
   const body = await request.arrayBuffer()
-  if (body.byteLength > (upload ? 160 * 1024 * 1024 : 262144)) return json({ error: "Request too large" }, 413)
+  if (body.byteLength > (upload ? 512 * 1024 * 1024 : 262144)) return json({ error: "Request too large" }, 413)
   const name = request.headers.get("x-file-name") ?? ""
   if (upload && (!name || name.length > 180 || !name.toLowerCase().endsWith(".pdf"))) return json({ error: "PDF filename required" }, 400)
   try {
     const res = await fetch(`${backend}/api/${path}`, { method: "POST", signal: AbortSignal.timeout(upload || path.endsWith("/recalculate") ? 180000 : 30000), headers: {
-      Host: "127.0.0.1", ...backendAuthorization(), Origin: "http://127.0.0.1:7318", "Content-Type": type!, ...(upload ? { "X-File-Name": name, "X-Source-Kind": request.headers.get("x-source-kind") === "addendum" ? "addendum" : "plan" } : {}),
+      Host: "127.0.0.1", ...backendAuthorization(), Origin: "http://127.0.0.1:7318", "Content-Type": type!, ...(upload ? { "X-File-Name": name, "X-Source-Kind": ["plan", "addendum", "specification"].includes(request.headers.get("x-source-kind") ?? "") ? request.headers.get("x-source-kind")! : "plan" } : {}),
     }, body: body.byteLength ? Buffer.from(body) : undefined })
     return json(await res.json(), res.status)
   } catch { return json({ error: "Internal LangGraph API is offline or timed out" }, 503) }
