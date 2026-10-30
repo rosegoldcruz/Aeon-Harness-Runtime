@@ -140,7 +140,7 @@ button { cursor: pointer; }
 .ci-findings { max-height: 160px; overflow: auto; padding: 3px 11px; background: #111c1e; border-radius: 6px; }
 .ci-findings p { color: #e2c396; font: 10px ui-monospace,monospace; border-bottom: 1px solid #38413c; padding-bottom: 6px; }
 .ci-evidence-button { border: 1px solid #52816a; color: #b6e9c5; background: none; padding: 5px 8px; border-radius: 5px; white-space: nowrap; font-size: 10px; }
-.ci-item-evidence { background: #10201f; border: 1px solid #568165; border-radius: 9px; padding: 16px; margin: 18px 0; color: #b8cdbe; font-size: 11px; }
+.ci-item-evidence { overflow-wrap: anywhere; background: #10201f; border: 1px solid #568165; border-radius: 9px; padding: 16px; margin: 18px 0; color: #b8cdbe; font-size: 11px; }
 .ci-item-evidence img { max-width: 100%; max-height: 420px; display: block; margin: 12px 0; }
 .ci-item-evidence blockquote { margin: 8px 0; border-left: 2px solid #7ebf91; padding-left: 8px; }.ci-dismiss { float: right; background: none; color: #c9d8c9; border: 0; }
 @media(max-width:640px) { .ci-form-grid,.ci-unit-grid { grid-template-columns: 1fr; }.ci-form-grid .ci-wide { grid-column: auto; }.ci-signout { font-size: 9px; } }
