@@ -1,10 +1,5 @@
-"use client"
-import { Search } from "./components/search-interface"
+import { CabinetIntelligence } from "./components/cabinet-intelligence"
 
 export default function Home() {
-  return (
-    <div className="flex h-screen w-full">
-      <Search />
-    </div>
-  )
+  return <CabinetIntelligence />
 }
